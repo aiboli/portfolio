@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> Aibo Li </title>
+<link rel="shortcut icon" href="https://facebook.github.io/react/favicon.ico">
+</head>
+<link rel="stylesheet" type="text/css" href="./semantic/semantic.css">
+<link rel="stylesheet" type="text/css" href="./css/maincss.css">
+<!-- <link rel="stylesheet" type="text/css" href="icon.min.css"> -->
+<!-- <link rel='stylesheet prefetch' href='http://cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.16.1/css/semantic.min.css'> -->
+<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/components/icon.min.css'>
+<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+<script src="./semantic/semantic.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js"></script>
+<script>
+  var nb = $('#navigationbar');
+  $(window).scroll(function(){
+    if( $(this).scrollTop() > 150 ){
+      nb.attr("id","navigationbar-scrolled");
+      nb = $('#navigationbar-scrolled');
+    }else {
+      nb.attr("id","navigationbar");
+      nb = $('#navigationbar');
+    }
+  })
+</script>
+
+<script>
+$(document).ready(function () {
+    $('#linkedin').hover(function(){
+    $(this).addClass("inverted big linkedin square icon");
+    $('#popUp').css("display", "inline");
+    }, function() {
+    $(this).removeClass("inverted big linkedin square icon");
+    $(this).addClass("inverted small linkedin square icon");
+    $('#popUp').css("display", "none");
+    });
+    $("#linkedin").on('click', function(){
+     window.location = "https://www.linkedin.com/in/aibo-li-ba4110a4/";
+});
+  });
+</script>
+
+
+<body>
+  <div id = "topbanner" class = "ui center aligned container">
+    <div id = "nameCard">
+      <h2 class="ui inverted header"><img id ="headicon" class="ui tiny circular image" src="./img/circlehead.jpg">
+        <div class="content"><i class="inverted terminal icon"></i>Aibo Albert Li
+          <div class="sub header"><i class="inverted student icon"></i>USC EE Master Stduent Class Of 2017</div>
+          <div class="sub header"><i id = "linkedin" class="inverted small linkedin square icon"></i>Lit Programmer - Looking for new grad position of Software Engineer and
+          Full-Stack Engineer</div>
+          <div id = "popUp" class="ui pointing white basic label">Please check out my linkedin and contact me ;) </div>
+        </div>
+      </h2>
+    </div>
+  </div>
+    <div id = "navigationbar" class="ui attached stackable menu">
+      <div class="ui center container">
+        <a class="center item">
+          <i class="home icon"></i> Home
+        </a>
+        <a href="#education" class="center item">
+          <i class="grid layout icon"></i> About Aibo
+        </a>
+        <a href="#projects" class="center item">
+          <i class="mail icon"></i> Project
+        </a>
+        <a href="./file/resume.pdf" class="center item">
+          <i class="file icon"></i> Resume
+        </a>
+        <div class="ui simple dropdown item">
+          More
+          <i class="dropdown icon"></i>
+          <div class="menu">
+            <a class="center item"><i class="gift peace icon"></i> Oops </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ui equal width center aligned padded grid" style = "z-index:-1;">
+      <div class="row">
+        <a name = "education"></a>
+        <div class="white column">
+          <img id ="schoolIconone" src="./img/donghua.png">
+          <h1 class="ui red header">
+            <div class="content">Donghua University</div>
+            <div class="content">Major : Electrical Engineering and Automation</div>
+          </h1>
+        </div>
+        <div class="column" style = "background-color: #931f1f;">
+          <img id ="schoolIcontwo" src="./img/usc.jpg">
+          <h1 id = "headermodify" class="ui inverted header">
+            <div class="content">University Of Southern California</div>
+            <div class="content">Major : Electrical Engineering (Computer Engineering)</div>
+          </h1>
+        </div>
+      </div>
+      <div class="row" style="">
+        <div class="column landing-image">
+          <div id = "workingbnbbnb" class = "ui container">
+            <img id ="workingIconone" src="./img/91.jpg">
+              <span id = "workingbnbtittle">91 bnb Travel, Inc</span>
+              <span id = "workingbnbsubtittle">Software Developer, Intern</span>
+          </div>
+          <div id = "workingbnbdes">
+              <span id = "workingbnbtime">Aug, 2016 to Jan, 2017</span>
+          </div>
+          <div id = "bnbdimmer" class="ui dimmer">
+            <div class="content">
+              <div class="center">
+                <h3 class="ui inverted header"><i class="code icon"></i>Developed a management system to store housing information and search housing information according to customers&acute; requirements based on HTML5, PHP, Jquery, and MySQL; </h3>
+                <h3 class="ui inverted header"><i class="code icon"></i>Developed an analyzer tool which can analyze and represent the house information from database by using Datatable, CanvasJs, PHPExcel and using Google Maps API to represent houses location in the map; </h3>
+                <h3 class="ui inverted header"><i class="code icon"></i>Implemented an interface to assist non-IT coworkers to dump large amount of data from Excel to database; </h3>
+                <h3 class="ui inverted header"><i class="code icon"></i>Using Google Maps API to assist inputting house address and correcting illegal inputs to right formats. </h3>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button id = "bnbshow" class="ui button">
+          more...
+        </button>
+      </div>
+      <div class="row">
+        <div class="column" style = "background-color: #00CED1;">
+            <div id = "workingbnbwgsr" class = "ui container">
+              <img id ="workingIcontwo" src="./img/wgsr.jpg">
+                <span id = "workingwgsrtittle" style="font-size:40px;">Westside German Shepherd Rescue</span>
+                <span id = "workingwgsrsubtittle">Web Developer</span>
+            </div>
+            <div id = "workingwgsrdes">
+                <span id = "workingwgsrtime">Jun, 2016 to Aug, 2016</span>
+            </div>
+            <div id = "wsgrdimmer" class="ui dimmer">
+              <div class="content">
+                <div class="center">
+                  <h3 class="ui inverted header"><i class="code icon"></i>Developed the well-designed webpages with functions of representing dog information, online donation and application by using Jquery, Reactjs, and Bootstrap; </h3>
+                  <h3 class="ui inverted header"><i class="code icon"></i>Implemented the dog adoption application and volunteer application system.</h3>
+                </div>
+              </div>
+            </div>
+        </div>
+        <button id = "wsgrshow" class="ui button">
+          more...
+        </button>
+      </div>
+      <div class="row">
+        <div class="column">
+          <canvas id="myChart"></canvas>
+          <button class = "ui button" id = "lang">Languages and Frameworks skills</button>
+          <button class = "ui button" id = "tools">Tools and Databases Skills</button>
+          <button class = "ui button" id = "jobs">Jobs Hunting</button>
+        </div>
+      </div>
+      <div class = "row">
+        <div class="ui raised segment">
+          <div class = "row">
+            <a name = "projects" class="ui red ribbon label">Projects</a>
+            <div class="content">
+              <h1 class = "ui centered header">Dota2 Summary Web App</h1>
+              <div class="ui two column divided grid">
+                <div class="row">
+                  <div class="five wide column">
+                    <a href="https://mydota3.herokuapp.com" class="ui medium image">
+                      <img class="ui medium rounded image" data-content = "click me" src="./img/dota.PNG">
+                    </a>
+                  </div>
+                  <div class="eleven wide column">
+                    <h4 class="ui header"><i class="code icon"></i>Develop a NodeJs web app for trace the dota2 games histories by using Steam API; </h4>
+                    <h4 class="ui header"><i class="code icon"></i>Using Chartist.js for the chart generating; </h4>
+                    <h4 class="ui header"><i class="code icon"></i>Deploy the app on Heroku; </h4>
+                    <a class="ui teal tag label">ExpressJs</a><a class="ui teal tag label">Heroku</a><a class="ui teal tag label">Nodejs</a><a class="ui teal tag label">ChartistJs</a><a class="ui teal tag label">Heroku</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ui divider"></div>
+          <div class = "row">
+            <div class="content">
+              <h1 class = "ui centered header">Stock Search Application</h1>
+              <div class="ui two column divided grid">
+                <div class="row">
+                  <div class="eleven wide column">
+                    <h4 class="ui header"><i class="code icon"></i>Develop a mobile responsive web page using a combination of HTML5, Bootstrap, Jquery, CSS, and PHP. Using AWS to handle the back-end PHP script; </h4>
+                    <h4 class="ui header"><i class="code icon"></i>Implemented the Ajax call to get and parse the JSON stock information from MarkitonDemand; </h4>
+                    <h4 class="ui header"><i class="code icon"></i>Implemented an interface to create the Stock Chart using the API of Yahoo Charts and HighCharts; </h4>
+                    <h4 class="ui header"><i class="code icon"></i>Implemented an interface to obtain the related news information of the stock using Bing News API. Using Facebook SDK to post the stock information on Facebook. </h4>
+                    <a class="ui teal tag label">HTML</a><a class="ui teal tag label">CSS</a><a class="ui teal tag label">Javascript</a><a class="ui teal tag label">JQuery</a><a class="ui teal tag label">AWS</a>
+                  </div>
+                  <div class="five wide column">
+                    <a href="./stocksearch/index.html" class="ui medium image">
+                      <img class="ui medium rounded image" src="./img/stock.PNG">
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ui divider"></div>
+          <div class = "row">
+            <div class="content">
+              <h1 class = "ui centered header">Video Advertisements Detector Based On Logo</h1>
+              <div class="ui two column divided grid">
+                <div class="row">
+                  <div class="five wide column">
+                    <img class="ui medium rounded image" src="./img/player.PNG">
+                  </div>
+                  <div class="eleven wide column">
+                    <h4 class="ui header"><i class="code icon"></i>Develop a media player can synchronize video source with audio source; </h4>
+                    <h4 class="ui header"><i class="code icon"></i>Develop an algorithm to detect and separate advertisement part from the normal video part; </h4>
+                    <h4 class="ui header"><i class="code icon"></i>Using OpenCV SIFT to detect the logo in each frame in the video and match them to the specific advertisement videos; </h4>
+                    <h4 class="ui header"><i class="code icon"></i>Replacing the origin advertisements with the new ones.</h4>
+                    <a class="ui teal tag label">Java</a><a class="ui teal tag label">OpenCV</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ui divider"></div>
+          <div class = "row">
+            <div class="content">
+              <h1 class = "ui centered header">Admission Office System Socket Programming</h1>
+              <div class="ui divided grid">
+                <div class="row">
+                  <div class="eleven wide column">
+                    <h4 class="ui header"><i class="code icon"></i>Simulated a system where client (students/department) and server (admission office) can communicate based on TCP/IP; </h4>
+                    <h4 class="ui header"><i class="code icon"></i>The admission office can collect the department requirements and the application information of students; </h4>
+                    <h4 class="ui header"><i class="code icon"></i>Implemented a server can handle multiple clients at the same time, receiving and analyzing the application information from clients; </h4>
+                    <h4 class="ui header"><i class="code icon"></i>Using UDP to deliver all the admission results to clients from the server. </h4>
+                    <a class="ui teal tag label">C/C++</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+
+<script>
+var ctx = document.getElementById("myChart");
+ctx.height = 60;
+var data = {
+    labels: ["Java", "Javascript", "C/C++", "Python", "ReactJs", "PHP", "JQuery"],
+    datasets: [
+        {
+            label: "Language/Framework skills",
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)'
+            ],
+            borderWidth: 3,
+            data: [100, 90, 60, 60, 70, 90, 90],
+        }
+    ]
+};
+new Chart(ctx, {
+    type: "radar",
+    data: data,
+    pointLabelFontSize: 20,
+    options: {
+            scale: {
+                ticks: {
+                    beginAtZero: true
+                },
+                pointLabels: {
+                  fontSize: 20
+                }
+            }
+    }
+});
+
+$('#lang').click(function(){
+  var ctx = document.getElementById("myChart");
+  // ctx.height = 350;
+  var newdata = {
+      labels: ["Java", "Javascript", "C/C++", "Python", "ReactJs", "PHP", "JQuery"],
+      datasets: [
+          {
+              label: "Language/Framework skills",
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)'
+              ],
+              borderColor: [
+                  'rgba(255,99,132,1)'
+              ],
+              borderWidth: 3,
+              data: [100, 90, 60, 60, 70, 90, 90],
+          }
+      ]
+  };
+  new Chart(ctx, {
+      type: "radar",
+      data: newdata,
+      pointLabelFontSize: 20,
+      options: {
+              scale: {
+                  ticks: {
+                      beginAtZero: true
+                  },
+                  pointLabels: {
+                    fontSize: 20
+                  }
+              }
+      }
+  });
+  window.ctx.update();
+});
+
+$('#jobs').click(function(){
+  var ctx = document.getElementById("myChart");
+  // ctx.height = 350;
+  var newdata = {
+      labels: ["Full-Stack", "Software Development", "Front-end", "Back-end"],
+      datasets: [
+          {
+              label: "Actively Seeking Position",
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)'
+              ],
+              borderColor: [
+                  'rgba(255,99,132,1)'
+              ],
+              borderWidth: 3,
+              data: [80, 100, 70, 70],
+          }
+      ]
+  };
+  new Chart(ctx, {
+      type: "radar",
+      data: newdata,
+      pointLabelFontSize: 20,
+      options: {
+              scale: {
+                  ticks: {
+                      beginAtZero: true
+                  },
+                  pointLabels: {
+                    fontSize: 20
+                  }
+              }
+      }
+  });
+  window.ctx.update();
+});
+
+$('#tools').click(function(){
+  var ctx = document.getElementById("myChart");
+  // ctx.height = 350;
+  var newdata = {
+      labels: ["Eclipse", "Git", "Android Studio", "Unity 2D", "MySQL", "MongoDB"],
+      datasets: [
+          {
+              label: "Tools/Databases skills",
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)'
+              ],
+              borderColor: [
+                  'rgba(255,99,132,1)'
+              ],
+              borderWidth: 3,
+              data: [100, 60, 70, 50, 90, 80],
+          }
+      ]
+  };
+  new Chart(ctx, {
+      type: "radar",
+      data: newdata,
+      pointLabelFontSize: 20,
+      options: {
+              scale: {
+                  ticks: {
+                      beginAtZero: true
+                  },
+                  pointLabels: {
+                    fontSize: 20
+                  }
+              }
+      }
+  });
+  window.ctx.update();
+});
+</script>
+
+<script>
+$(document).ready(function(){
+  $("#wsgrshow").click(function() {
+      $('#wsgrdimmer').dimmer('show');
+  });
+  $("#bnbshow").click(function() {
+      $('#bnbdimmer').dimmer('show');
+  });
+});
+</script>
+
+<script>
+$(document).ready(function(){
+$("#bnbmore").click(function() {
+  $("#bnbdetails").css('visibility','visible').hide().fadeIn("slow");
+    if($("#bnbdetails").css('visibility') == 'visible') {
+      $("#bnbdetailstittle").click(function(){
+        $("#bnbdetails").css('visibility','hidden').fadeOut("slow");
+      })
+    }
+});
+$("#workingBannerone").click(function() {
+  $(window).css('visibility','hidden').fadeOut("slow");
+});
+});
+</script>
+<script>
+// $(document).ready(function(){
+//   $("#workingbnbbnb").hover(function(){
+//     alert();
+//   })
+// });
+</script>
+</html>

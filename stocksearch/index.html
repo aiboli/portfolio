@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="en" class="mainPage">
+<head>
+    <style>
+    </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Stock Market Research</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script   src="http://momentjs.com/downloads/moment.js" ></script>
+    <script   src="https://code.jquery.com/jquery-1.12.2.min.js"   integrity="sha256-lZFHibXzMHo3GGeehn1hudTAP3Sc0uKXBXAzHX1sjtk="   crossorigin="anonymous"></script>
+    <script   src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"   integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw="   crossorigin="anonymous"></script>
+    <script   src="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"   integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw="   crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+	<link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+</head>
+<body>
+<script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : '260087910996472',
+            xfbml      : true,
+            version    : 'v2.5'
+        });
+    };
+
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+<style type="text/css">
+    body {
+        background: steelblue !important;
+    }
+</style>
+
+<p></p>
+<div class="container" name="SearchContainer" id="SearchContainer" style="align-content: center;">
+    <div align="center" class="jumbotron" style="width: 95; background-color: white" >
+                <h2>Stock Market Research</h2>
+                    <form class="form-horizontal" method="GET" action= "">
+                        <div class="row">
+                        <div class="col-md-4"><label class="control-label" for="stork">Enter the stock name or symbol:<span style="color:red">*</span></label></div>
+                        <div class="col-md-4"><input type="text" placeholder="Apple Inc or APPL"
+                                                     class="form-control" aria-setsize="60" id="stork" name="stork"
+                                                     autocomplete="off" required/>
+
+                        </div>
+                        <div class="col-md-4">
+                            <button type="submit" id="storkQuote" class="btn btn-primary" href="#myCarousel"><span class="glyphicon glyphicon-search"
+                                                                                                aria-hidden="true"></span> Get Quote
+                            </button>
+                            <button type="button" id="clearthepage" class="btn btn-default btn-md" data-slide="prev">
+                                <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Clear
+                            </button>
+                        </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 col-md-offset-4" id="validation" style="color: #ff0000;"></div>
+                            <div class="col-md-4" id="link"><label>Powered by:</label><a id="logoLink" href="http://dev.markitondemand.com/MODApis/"><img width="140" height="30" id="logoImage" alt="Markit on Demand logo" src="market.jpg" ></a>
+                            </div>
+                        </div>
+                    </form>
+    </div>
+    <hr style="width: 90">
+</div>
+
+<div class="container" name="resultContainer" id="resultContainer" style="align-content: center;width: 90">
+    <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
+        <div class="carousel-inner" role="listbox">
+            <div class="item active">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <label>Favorite List:</label>
+                        <div class="pull-right">
+                            <label class="hidden-xs">Auto Refresh:</label>
+                            <input type="checkbox" id="autorefreshb" data-toggle="toggle">
+                            <button type="submit" id="refreshb" class="btn btn-default"><span class="glyphicon glyphicon-refresh"></span></button>
+                            <button type="submit" id="goNext" class="btn btn-default" href="#myCarousel" data-slide="next" DISABLED><span class="glyphicon glyphicon-chevron-right"></span></button>
+                        </div>
+                    </div>
+                    <div class="panel-body table-responsive">
+                        <table class="table table-striped" id="favoriteTable">
+                            <tr>
+                                <th>Symbol</th>
+                                <th>Company Name</th>
+                                <th>Stock Price</th>
+                                <th>Change (Change Percent)</th>
+                                <th>Market Cap</th>
+                                <th></th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="panel panel-default">
+                    <div class="panel-heading" align="center">
+                        <button id="pevious" type="button" class="btn btn-default pull-left" href="#myCarousel" data-slide="prev"> <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span></button><label>Stock Details</label>
+                    </div>
+                    <div class="panel-body">
+                        <div id= tags>
+                            <ul class="nav nav-pills">
+                                <li class="active"><a data-toggle="pill" href="#currentStock"> <span class="glyphicon glyphicon-dashboard "></span><span class="hidden-xs-down"> Current</span><span class="hidden-xs"> Stork</span></a></li>
+                                <li><a data-toggle="pill" href="#historychart" onclick="refresh()"> <span class="glyphicon glyphicon-stats"></span></span><span class="hidden-xs-down"> History</span><span class="hidden-xs"> Charts</span></a></li>
+                                <li><a data-toggle="pill" href="#newsFeeds"> <span class="glyphicon glyphicon-link"></span><span class="hidden-xs-down"> News</span><span class="hidden-xs"> Feed</span></a></li>
+                            </ul>
+                            <hr>
+                        </div>
+                        <div id="tagDetail">
+                            <div class="tab-content">
+                                <div id="currentStock" class="tab-pane fade in active">
+                                    <div class="row">
+                                        <div class="col-sm-7">
+                                            <span>Stock Details</span>
+                                        </div>
+                                        <div class="col-sm-2 col-sm-offset-3">
+                                            <a id="facebookevo" onclick=facebooklookup()><img src="http://www.tecnologiabit.com/wp-content/uploads/2013/04/facebook-logo-nuevo.png" width="50px" height="30px"> </a>
+
+                                            <button type="button" class="btn btn-default" id="addtofavorite">
+                                                <span id="favouriteStar" class="glyphicon glyphicon-star"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div id="stockdetailtable" class ="row">
+                                        <div  class="col-sm-6">
+                                            <table class="table table-striped table-responsive" id="stocktabledata">
+                                            </table>
+                                        </div>
+                                        <div  id="stockChart" class="col-sm-6">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="historychart" href="#historychart" class="tab-pane fade" style="align-items: center">
+                                </div>
+                                <div id="newsFeeds" class="tab-pane fade">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+	<script>
+		function generatearrow(perc) {
+                if(perc>0) {
+                    return "<img  height='15' width='15' src='up.png'>";
+                }
+                else if(perc<0) {
+                    return "<img  height='15' width='15' src='down.png'>";
+                }
+                else{
+                    return "-";
+                }
+            }
+
+	</script>
+
+	<script>
+		    function changethecolor(value,target) {
+
+                if(value>0) {
+                    $("#"+target).css('color','green');
+                }
+                else if(value<0) {
+                    $("#"+target).css('color','red');
+                }
+                else {};
+            }
+	</script>
+    <script>
+        function productfavrow(jsonObject){
+            if(jsonObject["Status"] == "SUCCESS"){
+                favoraterow = "<tr id=\""+ jsonObject.Symbol +"\">";
+                favoraterow += "<td>" +"<a href=\"#\" onclick=\"jumptothemain("+"\'"+jsonObject.Symbol+"\'" +")\">" + jsonObject.Symbol+ "</a></td>";
+                favoraterow += "<td>" + jsonObject.Name + "</td>";
+                favoraterow += "<td>" +"$ "+ jsonObject.LastPrice + "</td>";
+                var change = jsonObject.Change.toFixed(2);
+                var changePercent = jsonObject.ChangePercent.toFixed(2);
+                changethecolor(changePercent, "stockchange"+jsonObject.Symbol);
+                favoraterow += "<td id=\"stockchange" +jsonObject.Symbol +"\">"+change+" ( "+changePercent +"%"+" ) "+generatearrow(changePercent)+"</td>";
+                favoraterow += "<td>" + (jsonObject.MarketCap/1000000000).toFixed(2) + "Billion</td>";
+                var trashButton = "<button type=\"button\" class=\"btn btn-default\" onclick=\"deletetheftable(this, \'"+jsonObject .Symbol + "\');\"><span class=\"glyphicon glyphicon-trash\"></span></button>";
+                favoraterow += "<td>"+trashButton+"</td>";
+                favoraterow += "</tr>";
+                $("#favoriteTable").append(favoraterow);
+                changethecolor(changePercent, "stockchange"+jsonObject.Symbol);
+
+            }
+        }
+    </script>
+            <script>
+                function refresh(){ setTimeout(function(){$("#historychart").highcharts().reflow();},1000);}
+            </script>
+    <script>
+        $( document ).ready(function(){
+            if((localStorage.length) != 0){
+                for(var i= 0; i < localStorage.length; i++){
+                    var symbol =  localStorage.key(i);
+                    $.ajax({
+                        url: "index.php",
+                        data: {symbolValue: symbol },
+                        type: "GET",
+                        datatype: "json",
+                        success: function(result) {
+                            var jsonObject = jQuery.parseJSON(result);
+                            productfavrow(jsonObject);
+
+                        }
+                    });
+
+                }
+            }
+        });
+
+
+    </script>
+            <script>
+                function facebooklookup(){
+                    var json = stockinjson;
+                    var stockImg = "http://chart.finance.yahoo.com/t?s="+json["Symbol"];
+                    var title = "Current Stock Price of "+ json["Name"]+ " is $" + json["LastPrice"];
+                    var subhead = "Stock Information of "+json["Name"]+ " ("+json["Symbol"]+")";
+                    var footText ="LAST PRICE: $"+json["LastPrice"]+", CHANGE: "+json["Change"].toFixed(2)+" ("+json["ChangePercent"].toFixed(2)+"%)";
+                    FB.ui(
+                            {
+                                method: "feed",
+                                to: "public",
+                                link: "http://dev.markitondemand.com/",
+                                picture: stockImg,
+                                name: title,
+                                description: subhead,
+                                caption: footText
+                            },
+                            function(response){
+                                if (response && !response.error_message) {
+                                    alert('Posted sucessfully');
+                                } else {
+                                    alert('No Posted');
+                                }
+                            }
+                    );
+
+                }
+</script>
+    <script>
+        $("#addtofavorite").click(function(e) {
+            e.preventDefault();
+            if (stockinjson == null) {
+                return;
+            }
+            var stockSymbol = stockinjson.Symbol;
+            if(localStorage.length == 0 || localStorage.getItem(stockSymbol) === null){
+                localStorage.setItem(stockSymbol,"TRUE");
+                starChange(stockSymbol);
+                productfavrow(stockinjson);
+            }else{
+                $("#"+stockSymbol).remove();
+                localStorage.removeItem(stockSymbol);
+                starChange(stockSymbol);
+            }
+
+        });
+        function starChange(Symbol){
+            if (localStorage.getItem(Symbol) == null) {
+                $("#favouriteStar").removeClass("glyphicon glyphicon-star").addClass("glyphicon glyphicon-star-empty");
+                $("#favouriteStar").css("color", "black");
+            } else {
+                $("#favouriteStar").removeClass("glyphicon glyphicon-star-empty").addClass("glyphicon glyphicon-star");
+                $("#favouriteStar").css("color", "yellow");
+            }
+        }
+        function refreshtheftable(){
+            if((localStorage.length) != 0){
+                for(var i= 0; i < localStorage.length; i++){
+                    var symbol =  localStorage.key(i);
+                    $.ajax({
+                        url: "index.php",
+                        data: {symbolValue: symbol },
+                        type: "GET",
+                        datatype: "json",
+                        success: function(result) {
+                            var jsonObject = jQuery.parseJSON(result);
+                            $("#"+jsonObject.Symbol).find("td:eq(1)").html(jsonObject.Name);
+                            $("#"+jsonObject.Symbol).find("td:eq(2)").html("$ " + jsonObject.LastPrice);
+                            var change = jsonObject.Change.toFixed(2);
+                            var changePercent = jsonObject.ChangePercent.toFixed(2);
+                            $("#"+jsonObject.Symbol).find("td:eq(3)").html(change+" ( "+changePercent +"%"+" ) "+generatearrow(changePercent));
+                            changethecolor(changePercent,"stockchange"+jsonObject.Symbol);
+                            var marketCap = jsonObject["MarketCap"]/1000000000;
+                            $("#"+jsonObject.Symbol).find("td:eq(4)").html(marketCap.toFixed(2)+"Billion");
+                        }
+                    });
+
+                }
+            }
+
+        }
+        $("#refreshb").click(function(e) {
+            refreshtheftable();
+        });
+        $("#autorefreshb").change(function() {
+            if ($("#autorefreshb").prop('checked')) {
+                conditionauto = setInterval(function() {
+                    refreshtheftable();
+                }, 5000);
+            } else {
+                clearInterval(conditionauto);
+            }
+        });
+
+        function deletetheftable(deleteButton, stockSymbol) {
+            if (typeof(deleteButton) == "object") {
+                $(deleteButton).closest("tr").remove();
+                localStorage.removeItem(stockSymbol);
+                starChange(stockSymbol);
+            }
+        }
+
+    </script>
+            <script>
+                $(function(){
+                    $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+                        jumptothemain(symbol);
+                    });
+                });
+            </script>
+    <script>
+        $("#clearthepage").on('click',function(){
+            $("stork").empty();
+			document.getElementById('stork').value="";
+            $("#newsFeeds").empty();
+            $("#stockChart").empty();
+            $("#stocktabledata").empty();
+            $("#myCarousel").carousel(0);
+            $("#goNext").prop('disabled',true);
+        });
+    </script>
+    <script>
+        var stockinjson;
+        $("#storkQuote").click(function(e) {
+            stockinjson="";
+            var symbol = $("#stork").val();
+            if(symbol!=""){
+                e.preventDefault();
+            }
+			jumptothemain(symbol);
+		});
+		    function jumptothemain(symbol){
+		        $("#newsFeeds").empty();
+            $("#stockChart").empty();
+            $("#stocktabledata").empty();
+			      $("#historychart").empty();
+            $.ajax({
+                url: "index.php",
+                data: { symbolValue: symbol },
+                type: "GET",
+                datatype: "json",
+                success: function(result) {
+                    var jsonObject = jQuery.parseJSON(result);
+                    starChange(jsonObject.Symbol);
+                    stockinjson= jsonObject;
+                    if(jsonObject["Status"]=="SUCCESS"){
+                        $("#myCarousel").carousel(1);
+                        $("#goNext").prop('disabled',false);
+                        $("#validation").empty();
+                        $("#stockdetailtable").append("<table class=\"table table-striped table-responsive\" id=\"stocktabledata\"></table>");
+                        $("#stocktabledata").append("<tr><td><p>Name</p></td><td>" + jsonObject.Name + "</td></tr>");
+                        $("#stocktabledata").append("<tr><td><p>Symbol</p></td><td>" + jsonObject.Symbol + "</td></tr>");
+                        $("#stocktabledata").append("<tr><td><p>Last Price</p></td><td>" + jsonObject.LastPrice + "</td></tr>");
+                        var change = jsonObject["Change"].toFixed(2);
+                        var changepercent = jsonObject["ChangePercent"].toFixed(2);
+
+                        $("#stocktabledata").append("<tr><td><p>Change (Change Percent)</p></td><td id=\"percentstock\">" + change +"("+changepercent+"%"+")"+generatearrow(changepercent)+"</td></tr>");
+                        changethecolor(changepercent, "percentstock");
+                        $("#stocktabledata").append("<tr><td><p>Time and Date</p></td><td>" + jsonObject.Timestamp + "</td></tr>");
+                        $("#stocktabledata").append("<tr><td><p>Market Cap</p></td><td>" + (jsonObject.MarketCap/1000000000).toFixed(2) + "Billion</td></tr>");
+                        $("#stocktabledata").append("<tr><td><p>Volume</p></td><td>" + jsonObject.Volume + "</td></tr>");
+                        var changeYTD = jsonObject["ChangeYTD"].toFixed(2);
+                        var changepercentYTD = jsonObject["ChangePercentYTD"].toFixed(2);
+                        $("#stocktabledata").append("<tr><td><p>Change YTD (Change Percent YTD)</p></td><td id=\"percentYTDstock\">"+ changeYTD +"("+changepercentYTD+"%"+")"+generatearrow(changepercentYTD)+"</td></tr>");
+                        changethecolor(changepercentYTD, "percentYTDstock");
+                        $("#stocktabledata").append("<tr><td><p>Low Price</p></td><td>"+"$ " + jsonObject.High + "</td></tr>");
+                        $("#stocktabledata").append("<tr><td><p>High Price</p></td><td>"+"$ " + jsonObject.Low + "</td></tr>");
+                        $("#stocktabledata").append("<tr><td><p>Opening Price</p></td><td>"+"$ " + jsonObject.Open + "</td></tr>");
+                        var stockImgURL = "http://chart.finance.yahoo.com/t?s=" + jsonObject["Symbol"]+ "&lang=en-US&width=550&height=450";
+                        $("#stockChart").append("<img id=\"dailyStockChart\" class=\"img-responsive\" src=\"" + stockImgURL + "\" alt=\"daily stock chart\">");
+                    }
+                    else if(symbol!="")
+                    {
+                        document.getElementById("validation").innerHTML = "Select a Valid Entry";
+                        $("#myCarousel").carousel(0);
+                        $("#goNext").prop('disabled',true);
+                        return;
+
+                    }
+                }
+            });
+            $.ajax({
+                url: "index.php",
+                data: { chartValue: symbol },
+                type: "GET",
+                datatype: "json",
+                success: function(result) {
+                    var jsonObject = jQuery.parseJSON(result);
+                    generation(jsonObject);
+                    $(this).html();
+                }
+            });
+            $.ajax({
+                url: "index.php",
+                data: { bingValue : symbol },
+                type: "GET",
+                datatype: "json",
+                success: function(result) {
+                    var jsonObject = jQuery.parseJSON(result);
+                    var newsCount = jsonObject.d.results.length;
+                    for(var i=0; i<newsCount; i++){
+                        var singleNews = jsonObject.d.results[i];
+                        var newsContent = "<div class=\"well\">";
+                        newsContent += "<p class=\"newsTitle\"><a href=\"" + singleNews.Url + "\" target=\"_blank\" >" + singleNews.Title + "</a></p>";
+                        newsContent += "<p class=\"newsContent\">" + singleNews.Description + "</p>";
+                        newsContent += "<p class=\"newsPublisher\"><b>" +"Publisher: "+ singleNews.Source + "</b></p>";
+                        var date = moment(singleNews.Date).format("DD MMM YYYY HH:mm:ss");
+                        newsContent += "<p class=\"newsDate\"><b>" + "Date: "+date + "</b></p>";
+                        newsContent += "</div>";
+                        $("#newsFeeds").append(newsContent);
+
+                    }
+                }
+            });
+        }
+    </script>
+    <script>
+		function _fixDate(dateIn) {
+            var dat = new Date(dateIn);
+            return Date.UTC(dat.getFullYear(), dat.getMonth(), dat.getDate());
+        };
+        function _getOHLC(json) {
+            var dates = json.Dates || [];
+            var elements = json.Elements || [];
+            var chartSeries = [];
+            if (elements[0]){
+                for (var i = 0, datLen = dates.length; i < datLen; i++) {
+                    var dat = _fixDate( dates[i] );
+                    var pointData = [
+                        dat,
+                        elements[0].DataSeries['open'].values[i],
+                        elements[0].DataSeries['high'].values[i],
+                        elements[0].DataSeries['low'].values[i],
+                        elements[0].DataSeries['close'].values[i]
+                    ];
+                    chartSeries.push( pointData );
+                };
+            }
+            return chartSeries;
+        };
+        function generation(data) {
+            var ohlc = _getOHLC(data);
+            var symbol = data.Elements[0]["Symbol"];
+            var groupingUnits = [[
+                'week',
+                [1]
+            ], [
+                'month',
+                [1, 2, 3, 4, 6]
+            ]];
+            $('#historychart').highcharts('StockChart', {
+                //
+                rangeSelector: {
+                    selected: 0,
+                    inputEnabled: false,
+                    buttons: [{
+                        type: 'week',
+                        count: 1,
+                        text: '1w'
+                    }, {
+                        type: 'month',
+                        count: 1,
+                        text: '1m'
+                    },{
+                        type: 'month',
+                        count: 3,
+                        text: '3m'
+                    }, {
+                        type: 'month',
+                        count: 6,
+                        text: '6m'
+                    }, {
+                        type: 'ytd',
+                        text: 'YTD'
+                    }, {
+                        type: 'year',
+                        count: 1,
+                        text: '1y'
+                    }, {
+                        type: 'all',
+                        text: 'All'
+                    }]
+                },
+                title: {
+                    text: symbol +' Stock Value'
+                },
+                yAxis: [{
+                    title: {
+                        text: 'Stock Value'
+                    },
+                    height: 200,
+                    lineWidth: 2
+                }
+
+                ],
+
+                series: [{
+					type: 'area',
+                    name: symbol,
+                    data: ohlc,
+                    dataGrouping: {
+                        units: groupingUnits
+                    },
+                    tooltip: {
+                        valueDecimals: 2,
+                        valuePrefix: "$"
+                    },
+                    fillColor: {
+                        linearGradient:{
+                            x1:0,
+                            y1:0,
+                            x2:0,
+                            y2:1
+                        },
+                        stops :[
+                            [0,Highcharts.getOptions().colors[0]],
+                            [1,Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                        ]
+                    },
+                }],
+                credits: {
+                    enabled:false
+                }
+            });
+        };
+    </script>
+    <script>
+        $(function () {
+            $("#stork").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        type: 'get',
+                        url: 'index.php?stork=' + request.term + '&json1callback=?',
+                        dataType: "jsonp",
+                        success: function (json) {
+                            if (json) {
+                                data = $.map(json, function (a, index) {
+                                    return a;
+                                });
+                                len = data.length;
+                                response($.map(data, function (item, index) {
+                                    var name = item.Name;
+                                    var symbol = item.Symbol;
+                                    var exc = item.Exchange;
+                                    return {
+                                        label: item.Symbol + '-' + item.Name + '(' + item.Exchange + ')',
+                                        value: item.Symbol
+                                    }
+                                }));
+                            } else {
+                                len = 0;
+                                data = null;
+                                document.getElementById("validation").innerHTML = "Select a Valid Entry";
+                                return {};
+                            }
+                        }
+
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
